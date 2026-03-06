@@ -1,30 +1,9 @@
 import { useState } from 'react';
-
-interface User {
-    id: string;
-    id_number: string;
-    name: string;
-    first_name: string;
-    last_name: string;
-    department_id: number;
-    department: string;
-    site_id: number;
-    site: string;
-    designation: string;
-    email: string;
-    avatar: string;
-    text_color: string;
-    bg_color: string;
-    first_time_login: boolean;
-    allowed_app: string[];
-    role: string;
-    is_active: boolean;
-}
+import type { User } from '../types';
 
 function Navigation() {
     const user: User = JSON.parse(localStorage.getItem('user') || '{}');
     const [showProfileMenu, setShowProfileMenu] = useState(false);
-    console.log('User from localStorage:', user);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
@@ -81,7 +60,7 @@ function Navigation() {
                             }
                             <div className="overflow-hidden">
                                 <div id="dropName" className="text-[0.875rem] font-semibold text-brand truncate">{user.name}</div>
-                                {/* <div id="dropRole" className="text-[0.72rem] text-muted mt-0.5 truncate">Senior Systems Analyst</div> */}
+                                <div id="dropRole" className="text-[0.72rem] text-muted truncate">{user.designation}</div>
                             </div>
                         </div>
                         <button onClick={handleLogout} className="flex items-center gap-2.5 w-full px-4 py-3.5 text-[0.875rem] font-medium text-red-600 hover:bg-red-50 transition-colors border-none bg-transparent cursor-pointer font-sans text-left">

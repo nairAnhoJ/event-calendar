@@ -1,8 +1,6 @@
 import LoginForm from "./_components/LoginForm"
 
 function Auth() {
-
-
     return (
         <>
             <div className="w-screen h-screen overflow-hidden">

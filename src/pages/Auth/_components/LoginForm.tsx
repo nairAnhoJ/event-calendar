@@ -1,11 +1,7 @@
 import { useState } from "react"
 import { useParams } from "react-router-dom";
 import config from "../../../config/config";
-
-interface Error {
-    path: string;
-    msg: string;
-}
+import type { Error } from "../../../types";
 
 interface Data {
     id_number: string;
