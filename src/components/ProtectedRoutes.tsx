@@ -1,21 +1,21 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useParams } from 'react-router-dom';
 import config from '../config/config';
 import { useEffect, useState } from 'react';
 
 function ProtectedRoutes() {
-    const [isValid, setIsValid] = useState<boolean | null>(null)
+    const { event_id } = useParams<{ event_id: string }>();
+  const [isVerified, setIsVerified] = useState(false)
+  const [loading, setLoading] = useState(true)
 
     useEffect(()=>{
-        const checkSession = async () => {
-            await config.get('/auth/is-valid')
-            .then(()=>setIsValid(true))
-            .catch(()=>setIsValid(false))
-        }
-
-        checkSession();
+        config.get('/auth/is-valid')
+            .then(()=>setIsVerified(true))
+            .catch(()=>setIsVerified(false))
+            .finally(() => setLoading(false))
     }, [])
 
-    if (isValid === false) return <Navigate to="/login" replace />
+    if (loading) return <p>Loading...</p>
+    if (!isVerified) return <Navigate to={`/login/${event_id}`} replace />
 
     return <Outlet />
 }

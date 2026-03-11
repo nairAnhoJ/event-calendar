@@ -71,7 +71,7 @@ function InvalidLink() {
                             </a>
 
                             {/* <!-- Phone --> */}
-                            <a href="tel:+63212345678"
+                            <a href="tel:+639176057248"
                                 className="flex items-center gap-4 p-4 rounded-xl border border-border hover:border-brand hover:bg-[#f5f5f8] transition-all group">
                                 <div className="w-10 h-10 rounded-lg bg-bg border border-border flex items-center justify-center shrink-0 text-muted group-hover:bg-brand group-hover:border-brand group-hover:text-white transition-all">
                                 <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -80,7 +80,7 @@ function InvalidLink() {
                                 </div>
                                 <div>
                                 <div className="text-[0.78rem] font-semibold tracking-[0.04em] uppercase text-muted mb-0.5">Phone</div>
-                                <div className="text-[0.9rem] font-medium text-brand">(02) 123-4567 loc. 404</div>
+                                <div className="text-[0.9rem] font-medium text-brand">0917 605 7248 or local 404</div>
                                 </div>
                                 <svg className="ml-auto text-border group-hover:text-brand transition-colors" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                                 <path d="M5 12h14M12 5l7 7-7 7"/>

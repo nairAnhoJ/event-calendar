@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import type { User } from '../types';
+import config from '../config/config';
 
 function Navigation() {
     const user: User = JSON.parse(localStorage.getItem('user') || '{}');
     const [showProfileMenu, setShowProfileMenu] = useState(false);
 
-    const handleLogout = () => {
-        localStorage.removeItem('token');
+    const handleLogout = async() => {
+        await config.post('/auth/logout');
         localStorage.removeItem('user');
         window.location.href = '/login';
     }
