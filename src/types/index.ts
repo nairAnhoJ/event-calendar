@@ -50,3 +50,15 @@ export interface Event {
     created_at: string;
     dates: EventDate[];
 }
+
+export interface RegistrationDetails {
+    id: string;
+    reference_number: string;
+    status: string;
+    created_at: string;
+    date: string;
+    start_time: string;
+    end_time: string;
+    venue: string;
+    location: string;
+}

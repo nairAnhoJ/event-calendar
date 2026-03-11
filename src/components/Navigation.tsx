@@ -12,7 +12,7 @@ function Navigation() {
     }
 
     return (
-        <nav className="bg-brand sticky top-0 z-50 flex items-center justify-between px-10 h-15.5 shadow-[0_2px_20px_rgba(0,0,0,0.15)]">
+        <nav className="bg-brand sticky top-0 z-50 flex items-center justify-between px-10 h-16 shadow-[0_2px_20px_rgba(0,0,0,0.15)]">
 
         {/* <!-- Logo --> */}
         <div className="font-serif text-xl tracking-wide text-white flex items-center gap-2.5">
