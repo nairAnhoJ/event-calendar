@@ -4,18 +4,25 @@ import { useEffect, useState } from 'react';
 
 function ProtectedRoutes() {
     const { event_id } = useParams<{ event_id: string }>();
-  const [isVerified, setIsVerified] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [isVerified, setIsVerified] = useState<boolean>(false)
+  const [isFirstTimeLogin, setIsFirstTimeLogin] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(()=>{
         config.get('/auth/is-valid')
-            .then(()=>setIsVerified(true))
+            .then((res)=>{
+                if(res.data.user.first_time_login === 1){
+                    setIsFirstTimeLogin(true)
+                }
+                setIsVerified(true)
+            })
             .catch(()=>setIsVerified(false))
             .finally(() => setLoading(false))
     }, [])
 
     if (loading) return <p>Loading...</p>
     if (!isVerified) return <Navigate to={`/login/${event_id}`} replace />
+    if (isFirstTimeLogin && !location.pathname.includes("set-password")) return <Navigate to={`/set-password/${event_id}`} replace />
 
     return <Outlet />
 }

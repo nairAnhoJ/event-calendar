@@ -5,6 +5,7 @@ import EventPage from './pages/Event';
 import ProtectedRoutes from './components/ProtectedRoutes';
 import MainLayout from './components/MainLayout';
 import Maintenance from './pages/Maintenance';
+import SetPassword from './pages/SetPassword';
 
 function App() {
 
@@ -13,12 +14,17 @@ function App() {
       <>
          <Routes>
             <Route path="/login/:event_id?" element={<Login />} />
+
             <Route element={<ProtectedRoutes />}>
                <Route element={<MainLayout />}>
-                  <Route path="/event/:event_id?" element={<EventPage />} />
+                  <Route path="/set-password/:event_id?" element={<SetPassword />} />
+                  
                   <Route path="/" element={<Maintenance />} />
+
+                  <Route path="/event/:event_id?" element={<EventPage />} />
                </Route>
             </Route>
+
          </Routes>
       </>
    )
