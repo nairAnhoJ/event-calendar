@@ -1,6 +1,22 @@
+import { useEffect } from "react";
 import LoginForm from "./_components/LoginForm"
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 function Auth() {
+    const navigate = useNavigate()
+    const { event_id } = useParams<{ event_id: string }>();
+    const user = localStorage.getItem('user');
+
+    useEffect(()=>{
+        if(user){
+            if(event_id){
+                navigate(`/event/${event_id}`, {replace: true})
+            }else{
+                navigate(`/event`, {replace: true})
+            }
+        }
+    }, [])
+
     return (
         <>
             <div className="w-screen h-screen overflow-hidden">

@@ -6,6 +6,7 @@ import ProtectedRoutes from './components/ProtectedRoutes';
 import MainLayout from './components/MainLayout';
 import Maintenance from './pages/Maintenance';
 import SetPassword from './pages/SetPassword';
+import PageNotFound from './pages/PageNotFound';
 
 function App() {
 
@@ -25,6 +26,7 @@ function App() {
                </Route>
             </Route>
 
+            <Route path="*" element={<PageNotFound />} />
          </Routes>
       </>
    )

@@ -1,5 +1,7 @@
 import { useState } from "react";
-import type { Error } from "../types";
+import type { Error, User } from "../types";
+import config from "../config/config";
+import { useParams } from "react-router-dom";
 
 interface Data {
     password: string;
@@ -7,25 +9,29 @@ interface Data {
 }
 
 function SetPassword() {
+    const { event_id } = useParams<{ event_id: string }>();
+    const user: User = JSON.parse(localStorage.getItem('user') || '{}');
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState<Data>({ password: '', password_confirmation: '' })
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
     const [errors, setErrors] = useState<Error[]>([]);
 
-
     const validation = () => {
         const newErrors: Error[]  = [];
         if(data.password.trim() === ''){
             newErrors.push({ path: 'password', msg: 'Please enter your password.' });
+        }else if(data.password.length < 8){
+            newErrors.push({ path: 'password', msg: 'Password must be at least 8 characters long.' });
         }
         if(data.password_confirmation.trim() === ''){
-            newErrors.push({ path: 'password_confirmation', msg: 'Please enter your password.' });
+            newErrors.push({ path: 'password_confirmation', msg: 'Please confirm your password.' });
         }
 
         if(data.password !== data.password_confirmation){
-            newErrors.push({ path: 'all', msg: 'Passwords do not match' })
+            newErrors.push({ path: 'password_confirmation', msg: 'Passwords do not match' })
         }
+
         if(newErrors.length > 0){
             setErrors(newErrors);
             setLoading(false);
@@ -37,9 +43,20 @@ function SetPassword() {
 
     const handleSubmit = () => {
         setLoading(true);
-        if(!validation) return;
+        if(!validation()) return;
 
-
+        config.post('/auth/change-password/0', data)
+            .then((res) => {
+                if(res.status === 200){
+                    if(event_id){
+                        window.location.href = `/event/${event_id}`
+                    }else{
+                        window.location.href = `/event`
+                    }
+                }
+            })
+            .catch((err)=>console.log(err))
+            .finally(()=>setLoading(false))
     }
 
     return (
@@ -49,82 +66,56 @@ function SetPassword() {
                 {`
                     /* ── Entrance animations ── */
                     @keyframes fadeSlideUp {
-                    from { opacity: 0; transform: translateY(14px); }
-                    to   { opacity: 1; transform: translateY(0);    }
+                        from { opacity: 0; transform: translateY(14px); }
+                        to   { opacity: 1; transform: translateY(0);    }
                     }
                     .anim-1 { animation: fadeSlideUp 0.4s 0.05s ease both; }
                     .anim-2 { animation: fadeSlideUp 0.4s 0.15s ease both; }
                     .anim-3 { animation: fadeSlideUp 0.4s 0.25s ease both; }
                     .anim-4 { animation: fadeSlideUp 0.4s 0.35s ease both; }
 
-                    /* ── Left panel decorative circles ── */
-                    .deco-circle {
-                    position: absolute;
-                    border-radius: 50%;
-                    pointer-events: none;
-                    }
-
                     /* ── Password input focus ring ── */
                     .pw-input:focus {
-                    outline: none;
-                    border-color: #C9A84C !important;
-                    box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
+                        outline: none;
+                        border-color: #C9A84C !important;
+                        box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
                     }
                     .pw-input.error:focus {
-                    border-color: #ef4444 !important;
-                    box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
+                        border-color: #ef4444 !important;
+                        box-shadow: 0 0 0 3px rgba(239,68,68,0.12);
                     }
 
                     /* ── Strength bar segments ── */
                     .strength-seg {
-                    height: 4px;
-                    border-radius: 99px;
-                    flex: 1;
-                    transition: background 0.3s ease;
-                    background: #E0DDD8;
+                        height: 4px;
+                        border-radius: 99px;
+                        flex: 1;
+                        transition: background 0.3s ease;
+                        background: #E0DDD8;
                     }
 
                     /* ── Requirement item ── */
                     .req-item {
-                    display: flex;
-                    align-items: center;
-                    gap: 8px;
-                    font-size: 0.775rem;
-                    color: #6B6B7B;
-                    transition: color 0.2s ease;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        font-size: 0.775rem;
+                        color: #6B6B7B;
+                        transition: color 0.2s ease;
                     }
                     .req-item.met { color: #16a34a; }
                     .req-item .req-dot {
-                    width: 16px; height: 16px;
-                    border-radius: 50%;
-                    border: 1.5px solid #E0DDD8;
-                    display: flex; align-items: center; justify-content: center;
-                    flex-shrink: 0;
-                    transition: all 0.2s ease;
+                        width: 16px; height: 16px;
+                        border-radius: 50%;
+                        border: 1.5px solid #E0DDD8;
+                        display: flex; align-items: center; justify-content: center;
+                        flex-shrink: 0;
+                        transition: all 0.2s ease;
                     }
                     .req-item.met .req-dot {
-                    background: #16a34a;
-                    border-color: #16a34a;
+                        background: #16a34a;
+                        border-color: #16a34a;
                     }
-
-                    /* ── Submit button loading ── */
-                    @keyframes spin {
-                    to { transform: rotate(360deg); }
-                    }
-                    .btn-spinner {
-                    width: 16px; height: 16px;
-                    border: 2px solid rgba(26,26,46,0.3);
-                    border-top-color: #1A1A2E;
-                    border-radius: 50%;
-                    animation: spin 0.7s linear infinite;
-                    }
-
-                    /* ── Success checkmark ── */
-                    @keyframes scaleIn {
-                    from { transform: scale(0.5); opacity: 0; }
-                    to   { transform: scale(1);   opacity: 1; }
-                    }
-                    .success-icon { animation: scaleIn 0.35s cubic-bezier(0.34,1.56,0.64,1) both; }
                 `}
             </style>
 
@@ -132,9 +123,9 @@ function SetPassword() {
                 {/* <!-- ── LEFT PANEL (dark, decorative) ── --> */}
                 <div className="hidden lg:flex lg:w-1/2 bg-brand relative overflow-hidden flex-col justify-between px-14 py-12">
                     {/* <!-- Decorative circles --> */}
-                    <div className="deco-circle w-105 h-105 -top-25 -right-35 border border-[rgba(201,168,76,0.08)]"></div>
-                    <div className="deco-circle w-70 h-70 -bottom-15 -left-20 border border-[rgba(201,168,76,0.06)]"></div>
-                    <div className="deco-circle w-40 h-40 top-[38%] left-[20%] border border-[rgba(201,168,76,0.07)]"></div>
+                    <div className="absolute rounded-[50%] pointer-events-none w-105 h-105 -top-25 -right-35 border border-[rgba(201,168,76,0.08)]"></div>
+                    <div className="absolute rounded-[50%] pointer-events-none w-70 h-70 -bottom-15 -left-20 border border-[rgba(201,168,76,0.06)]"></div>
+                    <div className="absolute rounded-[50%] pointer-events-none w-40 h-40 top-[38%] left-[20%] border border-[rgba(201,168,76,0.07)]"></div>
 
                     {/* <!-- Logo --> */}
                     <div>
@@ -212,12 +203,13 @@ function SetPassword() {
                         {/* <!-- Welcome header --> */}
                         <div className="anim-1 mb-8">
                             {/* <!-- User greeting pill --> */}
-                            <div className="inline-flex items-center gap-2.5 mb-5 px-3 py-1.5 rounded-full bg-[rgba(201,168,76,0.1)] border border-[rgba(201,168,76,0.22)]">
-                                <div className="w-6 h-6 rounded-full bg-gold flex items-center justify-center font-serif text-brand font-bold text-[0.65rem]">
+                            <div className="inline-flex items-center gap-2.5 mb-5 px-3 pt-2 pb-1.25 rounded-full bg-[rgba(201,168,76,0.1)] border border-[rgba(201,168,76,0.22)]">
+                                {/* <div className="w-6 h-6 rounded-full bg-gold flex items-center justify-center font-serif text-brand font-bold text-[0.65rem]">
                                     MS
-                                </div>
+                                </div> */}
                                 <span className="text-[0.775rem] font-semibold text-[#92700a]">
-                                    Welcome, <span>Maria</span>
+                                    Welcome, 
+                                    <span className=""> {(user.first_name).toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}</span>
                                 </span>
                             </div>
 
@@ -231,6 +223,7 @@ function SetPassword() {
 
                         {/* <!-- ── FORM ── --> */}
                         <form className="anim-2 flex flex-col gap-5">
+
                             {/* <!-- New password --> */}
                             <div className="flex flex-col gap-1.5">
                                 <label className="text-[0.78rem] font-semibold text-brand tracking-[0.03em]">New Password</label>
@@ -251,11 +244,14 @@ function SetPassword() {
                                         }
                                     </button>
                                 </div>
-
-                                <span id="newPassError" className="hidden text-[0.75rem] text-red-500 flex items-center gap-1 mt-0.5">
-                                    <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                                    <span></span>
-                                </span>
+                                {
+                                    errors.some((err)=>err.path === 'password') && (
+                                        <span className="text-[0.75rem] text-red-500 flex items-center gap-1 mt-0.5">
+                                            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                            <span>{ errors.find((err)=>err.path === 'password')?.msg }</span>
+                                        </span>
+                                    )
+                                }
                             </div>
 
                             {/* <!-- Confirm password --> */}
@@ -278,6 +274,14 @@ function SetPassword() {
                                         }
                                     </button>
                                 </div>
+                                {
+                                    errors.some((err)=>err.path === 'password_confirmation') && (
+                                        <span className="text-[0.75rem] text-red-500 flex items-center gap-1 mt-0.5">
+                                            <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                                            <span>{ errors.find((err)=>err.path === 'password_confirmation')?.msg }</span>
+                                        </span>
+                                    )
+                                }
                                 <span id="confirmPassError" className="hidden text-[0.75rem] text-red-500 flex items-center gap-1 mt-0.5">
                                     <svg width="12" height="12" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
                                     <span></span>

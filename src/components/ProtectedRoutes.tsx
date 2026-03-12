@@ -1,12 +1,13 @@
-import { Navigate, Outlet, useParams } from 'react-router-dom';
+import { Navigate, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
 import config from '../config/config';
 import { useEffect, useState } from 'react';
 
 function ProtectedRoutes() {
     const { event_id } = useParams<{ event_id: string }>();
-  const [isVerified, setIsVerified] = useState<boolean>(false)
-  const [isFirstTimeLogin, setIsFirstTimeLogin] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(true)
+    const location = useLocation();
+    const [isVerified, setIsVerified] = useState<boolean>(false)
+    const [isFirstTimeLogin, setIsFirstTimeLogin] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(true)
 
     useEffect(()=>{
         config.get('/auth/is-valid')
@@ -16,13 +17,22 @@ function ProtectedRoutes() {
                 }
                 setIsVerified(true)
             })
-            .catch(()=>setIsVerified(false))
+            .catch(()=>{
+                setIsVerified(false)
+            })
             .finally(() => setLoading(false))
     }, [])
 
     if (loading) return <p>Loading...</p>
-    if (!isVerified) return <Navigate to={`/login/${event_id}`} replace />
-    if (isFirstTimeLogin && !location.pathname.includes("set-password")) return <Navigate to={`/set-password/${event_id}`} replace />
+    if (!isVerified){
+        return <Navigate to={event_id ? `/login/${event_id}` : `/login`} replace />
+    } 
+    if (isFirstTimeLogin && !location.pathname.includes("set-password")){
+        return <Navigate to={event_id ? `/set-password/${event_id}` : `/set-password`} replace />
+    }
+    if (!isFirstTimeLogin && location.pathname.includes("set-password")){
+        return <Navigate to={`/`} replace />
+    }
 
     return <Outlet />
 }

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import config from "../../../config/config";
 import type { Error } from "../../../types";
 
@@ -9,6 +9,7 @@ interface Data {
 }
 
 function LoginForm() {
+    const navigate = useNavigate()
     const { event_id } = useParams<{ event_id: string }>();
     const [data, setData] = useState<Data>({
         id_number: '',
@@ -34,6 +35,12 @@ function LoginForm() {
         return true;
     }
 
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if(e.key==="Enter"){
+            handleSubmit();
+        }
+    }
+
     const handleSubmit = async () => {
         setErrors([]);
         setLoading(true);
@@ -41,14 +48,12 @@ function LoginForm() {
 
         try {
             const res = await config.post('/auth/login', data);
-            console.log(res);
             if(res.status === 200){
-                localStorage.setItem('token', res.data.token);
                 localStorage.setItem('user', JSON.stringify(res.data.user));
                 if(event_id){
-                    window.location.href = `/event/${event_id}`;
+                    navigate(`/event/${event_id}`, {replace: true})
                 }else{
-                    window.location.href = '/';
+                    navigate(`/event`, {replace: true})
                 }
             }
         } catch (error: any) {
@@ -94,7 +99,7 @@ function LoginForm() {
                                 <rect x="2" y="7" width="20" height="14" rx="2"/>
                                 <path d="M16 3H8a2 2 0 00-2 2v2h12V5a2 2 0 00-2-2z"/>
                             </svg>
-                            <input value={data.id_number} onChange={(e) => setData({...data, id_number: e.target.value})} type="text" placeholder="Enter your ID number" autoComplete="off" required className="path-input w-full bg-bg border-[1.5px] border-border rounded-lg pl-16.75 pr-3.5 py-2.75 text-[0.9rem] text-muted placeholder-[#bbb] transition-colors duration-200 font-sans tracking-wide"/>
+                            <input value={data.id_number} onChange={(e) => setData({...data, id_number: e.target.value})} onKeyDown={handleKeyPress} type="text" placeholder="Enter your ID number" autoComplete="off" required className="path-input w-full bg-bg border-[1.5px] border-border rounded-lg pl-16.75 pr-3.5 py-2.75 text-[0.9rem] text-muted placeholder-[#bbb] transition-colors duration-200 font-sans tracking-wide"/>
                             <span className="absolute left-9.5 top-1/2 -translate-y-1/2 text-muted tracking-wider">HII-</span>
                         </div>
                         {
@@ -119,7 +124,7 @@ function LoginForm() {
                                 <rect x="3" y="11" width="18" height="11" rx="2"/>
                                 <path d="M7 11V7a5 5 0 0110 0v4"/>
                             </svg>
-                            <input value={data.password} onChange={(e) => setData({...data, password: e.target.value})} type={showPassword ? "text" : "password"} placeholder="Enter your password" autoComplete="off" required className="path-input w-full bg-bg border-[1.5px] border-border rounded-lg pl-10 pr-10 py-2.75 text-[0.9rem] text-muted placeholder-[#bbb] transition-colors duration-200 font-sans" />
+                            <input value={data.password} onChange={(e) => setData({...data, password: e.target.value})} onKeyDown={handleKeyPress} type={showPassword ? "text" : "password"} placeholder="Enter your password" autoComplete="off" required className="path-input w-full bg-bg border-[1.5px] border-border rounded-lg pl-10 pr-10 py-2.75 text-[0.9rem] text-muted placeholder-[#bbb] transition-colors duration-200 font-sans" />
                             {/* <!-- Show / Hide toggle --> */}
                             <button onClick={()=>setshowPassword(!showPassword)} type="button" className="absolute right-3 top-1/2 -translate-y-1/2 text-muted opacity-50 hover:opacity-100 transition-opacity flex items-center p-0.5 bg-transparent border-none cursor-pointer">
                                 {
