@@ -30,10 +30,10 @@ function BackgroundDeco() {
 }
 
 function GearIllustration() {
-    const outerRef = useRef(null);
-    const innerRef = useRef(null);
+    const outerRef = useRef<HTMLDivElement>(null);
+    const innerRef = useRef<HTMLDivElement>(null);
     const angleRef = useRef(0);
-    const rafRef   = useRef(null);
+    const rafRef   = useRef<number | null>(null);
 
     useEffect(() => {
         let last: number | null = null;

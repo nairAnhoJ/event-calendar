@@ -77,6 +77,7 @@ function EventPage() {
 
     return (
         <>
+            { pageLoading && <div>Loading...</div> }
             {
                 !isValidId ?
                     <InvalidLink />

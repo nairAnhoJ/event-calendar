@@ -1,4 +1,4 @@
-import { Navigate, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, Outlet, useLocation, useParams } from 'react-router-dom';
 import config from '../config/config';
 import { useEffect, useState } from 'react';
 
