@@ -25,6 +25,7 @@ function ProtectedRoutes() {
 
     if (loading) return <p>Loading...</p>
     if (!isVerified){
+        localStorage.removeItem('user')
         return <Navigate to={event_id ? `/login/${event_id}` : `/login`} replace />
     } 
     if (isFirstTimeLogin && !location.pathname.includes("set-password")){

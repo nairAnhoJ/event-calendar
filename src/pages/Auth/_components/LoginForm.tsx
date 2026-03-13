@@ -57,7 +57,6 @@ function LoginForm() {
                 }
             }
         } catch (error: any) {
-            console.log(error.response);
             if(error.response?.data?.errors){
                 setErrors(error.response.data.errors);
             }

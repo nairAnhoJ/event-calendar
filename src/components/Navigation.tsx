@@ -29,7 +29,7 @@ function Navigation() {
             <button onClick={() => setShowProfileMenu(!showProfileMenu)} className="flex items-center gap-2.5 px-1.5 py-1 rounded-full hover:bg-white/10 transition-colors border-none bg-transparent cursor-pointer">
                 {
                     (user.avatar) ? (
-                        <img src={user.avatar} alt="User Avatar" className="w-9 h-9 rounded-full object-cover" />
+                        <img src={`${import.meta.env.VITE_BASE_URL}/avatar/${user.avatar}`} alt="User Avatar" className="w-9 h-9 rounded-full object-cover" />
                     ) : (
                         <div className="w-9 h-9 rounded-full bg-gold border-2 border-gold flex items-center justify-center gap-x-px font-serif text-[0.95rem] text-brand font-bold shrink-0">
                             <span>{user.first_name[0]}</span>
@@ -47,11 +47,11 @@ function Navigation() {
             {/* <!-- Dropdown menu --> */}
             {
                 showProfileMenu && (
-                    <div className="absolute top-[calc(100%+12px)] right-0 bg-white rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.18)] min-w-55 overflow-hidden z-50">
+                    <div className="w-max absolute top-[calc(100%+12px)] right-0 bg-white rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.18)] min-w-55 overflow-hidden z-50">
                         <div className="flex items-center gap-3 px-4 py-3.5 border-b border-border">
                             {
                                 (user.avatar) ? (
-                                    <img src={user.avatar} alt="User Avatar" className="w-9 h-9 rounded-full object-cover" />
+                                    <img src={`${import.meta.env.VITE_BASE_URL}/avatar/${user.avatar}`} alt="User Avatar" className="w-9 h-9 rounded-full object-cover" />
                                 ) : (
                                     <div className="w-9 h-9 rounded-full bg-gold border-2 border-gold flex items-center justify-center gap-x-px font-serif text-[0.95rem] text-brand font-bold shrink-0">
                                         <span>{user.first_name[0]}</span>
@@ -59,9 +59,9 @@ function Navigation() {
                                     </div>
                                 )
                             }
-                            <div className="overflow-hidden">
-                                <div id="dropName" className="text-[0.875rem] font-semibold text-brand truncate">{user.name}</div>
-                                <div id="dropRole" className="text-[0.72rem] text-muted truncate">{user.designation}</div>
+                            <div className="w-full overflow-hidden">
+                                <div className="text-[0.875rem] font-semibold text-brand whitespace-nowrap pr-3">{user.name}</div>
+                                <div className="text-[0.72rem] text-muted truncate">{user.designation}</div>
                             </div>
                         </div>
                         <button onClick={handleLogout} className="flex items-center gap-2.5 w-full px-4 py-3.5 text-[0.875rem] font-medium text-red-600 hover:bg-red-50 transition-colors border-none bg-transparent cursor-pointer font-sans text-left">
