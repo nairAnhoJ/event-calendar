@@ -5,6 +5,7 @@ import type { Error, Event } from "../../../types";
 import UserInformation from "./UserInformation";
 import { formatDate } from "../../../utils/formatDate";
 import { formatTime } from "../../../utils/formatTime";
+import { formatDay } from "../../../utils/formatDay";
 
 function RegisterForm({registered}: {registered: () => void}) {
     const { event_id } = useParams<{ event_id: string }>();
@@ -76,11 +77,11 @@ function RegisterForm({registered}: {registered: () => void}) {
                                 <div className="text-[0.9rem] font-semibold text-brand">
                                     { 
                                         (date.type === 'single') ?
-                                            formatDate(date.date) 
+                                            `${formatDate(date.date)}(${formatDay(date.date)})`
                                         : (date.type === 'multiple') ?
-                                            `${formatDate(date.date)}${(date.date2) ? ', '+formatDate(date.date2) : ''}${(date.date3 !== null) ? ', '+(date.date3) : ''}`
+                                            `${formatDate(date.date)}(${formatDay(date.date)})${(date.date2) ? ' & '+formatDate(date.date2)+'('+formatDay(date.date2)+')' : ''}${(date.date3 !== null) ? ' & '+formatDate(date.date3)+'('+formatDay(date.date3)+')' : ''}`
                                         :   (date.type === 'range') ?
-                                            `${formatDate(date.from_date)} - ${formatDate(date.to_date)}`
+                                            `${formatDate(date.from_date)}(${formatDay(date.from_date)}) - ${formatDate(date.to_date)}(${formatDay(date.to_date)})`
                                         :
                                             ''
                                     }
