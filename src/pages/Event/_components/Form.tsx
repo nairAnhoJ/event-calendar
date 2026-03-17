@@ -73,7 +73,18 @@ function RegisterForm({registered}: {registered: () => void}) {
                             <label key={index} className={`date-option flex items-center gap-3.5 border-[1.5px] border-border rounded-lg px-4 py-3.5 cursor-pointer hover:border-brand hover:bg-white transition-all bg-bg ${!date.is_active && 'pointer-events-none'}`}>
                                 <input type="radio" name="date" onChange={()=>setSelectedDate(date.id)} checked={date.id === selectedDate} value={date.id} className="w-4 h-4 shrink-0 cursor-pointer" required={date.is_active} disabled={!date.is_active} />
                                 <div className="flex-1">
-                                <div className="text-[0.9rem] font-semibold text-brand">{ formatDate(date.date) }</div>
+                                <div className="text-[0.9rem] font-semibold text-brand">
+                                    { 
+                                        (date.type === 'single') ?
+                                            formatDate(date.date) 
+                                        : (date.type === 'multiple') ?
+                                            `${formatDate(date.date)}${(date.date2) ? ', '+formatDate(date.date2) : ''}${(date.date3 !== null) ? ', '+(date.date3) : ''}`
+                                        :   (date.type === 'range') ?
+                                            `${formatDate(date.from_date)} - ${formatDate(date.to_date)}`
+                                        :
+                                            ''
+                                    }
+                                </div>
                                 <div className="text-[0.78rem] text-muted mt-0.5">
                                     {`
                                         ${formatTime(date.start_time)} - ${formatTime(date.end_time)} • 

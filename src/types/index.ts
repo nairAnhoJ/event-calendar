@@ -26,7 +26,12 @@ export interface Error {
 
 export interface EventDate {
     id: string;
+    type: string;
     date: string;
+    date2: string;
+    date3: string;
+    from_date: string;
+    to_date: string;
     start_time: string;
     end_time: string;
     venue: string;
