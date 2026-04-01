@@ -7,6 +7,8 @@ import MainLayout from './components/MainLayout';
 import Maintenance from './pages/Maintenance';
 import SetPassword from './pages/SetPassword';
 import PageNotFound from './pages/PageNotFound';
+import RoleRoute from './components/RoleRoute';
+import CalendarPage from './pages/Calendar';
 
 function App() {
 
@@ -20,7 +22,8 @@ function App() {
                <Route element={<MainLayout />}>
                   <Route path="/set-password/:event_id?" element={<SetPassword />} />
                   
-                  <Route path="/" element={<Maintenance />} />
+                  {/* <Route path="/" element={<Maintenance />} /> */}
+                  <Route path="/" element={<RoleRoute adminComponent={<CalendarPage />} userComponent={<Maintenance />} />} />
 
                   <Route path="/event/:event_id?" element={<EventPage />} />
                </Route>
