@@ -1,29 +1,66 @@
-import React from 'react'
 import Sidebar from './_components/Sidebar';
 import Calendar from './_components/Calendar';
+import { useEffect, useState } from 'react';
+import config from '../../config/config';
 
-// ─── HELPERS ──────────────────────────────────────────────────────────────────
-const MONTHS_LONG  = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-const MONTHS_SHORT = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-const DAYS_SHORT   = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+interface EventSlot {
+    id:             string;
+    description:    string;
+    type:           string;
+    date:           string; // "YYYY-MM-DD"
+    date2:          string | null;
+    date3:          string | null;
+    from_date:      string | null;
+    to_date:        string | null;
+}
 
-function parseDate(str: string)        { console.log(str);return new Date(str + "T00:00:00"); }
-function getDaysInMonth(y: number, m: number)  { return new Date(y, m + 1, 0).getDate(); }
-function getFirstDay(y: number, m: number)     { return new Date(y, m, 1).getDay(); }
-function getInitials(name: string)     { return name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase(); }
-
-function formatFull(str: string) {
-  return parseDate(str).toLocaleDateString("en-PH", {
-    weekday: "long", year: "numeric", month: "long", day: "numeric",
-  });
+interface CalendarEvent {
+    id:          string;
+    title:       string;
+    description: string;
+    date:        string;
+    dates:       EventSlot[];
 }
 
 function CalendarPage() {
+	const [loading, setLoading] = useState<boolean>(true);
+	const [events, setEvents] = useState<CalendarEvent[]>([])
+
+	const fetchEvents = async() => {
+		config.get('/events')
+			.then((res)=>{
+				const formatted = res.data.map((d: any) => ({
+					id: d.id,
+					title: d.title,
+					description: d.description,
+					date: "1970-01-01",
+					dates: d.dates.map((s: any) => ({
+						id: s.id,
+						description: s.description,
+						type: s.type,
+						date: new Date(s.date).toISOString().split("T")[0],
+						date2: new Date(s.date2).toISOString().split("T")[0],
+						date3: new Date(s.date3).toISOString().split("T")[0],
+						from_date: new Date(s.from_date).toISOString().split("T")[0],
+						to_date: new Date(s.to_date).toISOString().split("T")[0]
+					}))
+				}));
+
+				setEvents(formatted);
+			})
+			.catch((err)=>console.log(err))
+			.finally(()=>setLoading(false))
+	}
+
+    useEffect(()=>{
+			fetchEvents();
+    }, [])
+
     return (
         <>
             <div className='fixed flex w-screen h-screen'>
                 <Sidebar />
-                <Calendar />
+                <Calendar events={events}/>
             </div>
         </>
     )
