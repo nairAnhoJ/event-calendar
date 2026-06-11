@@ -5,14 +5,11 @@ function RoleRoute({adminComponent, userComponent}: {adminComponent: JSX.Element
     const [isAdmin, setIsAdmin] = useState<boolean>(false)
 
     useEffect(()=>{
-        config.get('/auth/is-valid')
+        config.get('/event-calendar/roles')
             .then((res)=>{
-                if(res.data.user.role === 'admin'){
+                if(res.data.role && res.data.role === 'admin'){
                     setIsAdmin(true)
                 }
-            })
-            .catch((err)=>{
-                console.log(err)
             })
     }, [])
 

@@ -3,7 +3,7 @@ import Calendar from './_components/Calendar';
 import { useEffect, useState } from 'react';
 import config from '../../config/config';
 
-interface EventSlot {
+export interface EventSlot {
     id:             string;
     description:    string;
     type:           string;
@@ -12,9 +12,15 @@ interface EventSlot {
     date3:          string | null;
     from_date:      string | null;
     to_date:        string | null;
+    start_time:     string | null;
+    end_time:     	string | null;
+    venue:          string | null;
+    location:       string | null;
+		slot_limit:     number;
+		is_active:      boolean;
 }
 
-interface CalendarEvent {
+export interface CalendarEvent {
     id:          string;
     title:       string;
     description: string;
@@ -25,6 +31,7 @@ interface CalendarEvent {
 function CalendarPage() {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [events, setEvents] = useState<CalendarEvent[]>([])
+
 
 	const fetchEvents = async() => {
 		config.get('/events')
@@ -42,10 +49,15 @@ function CalendarPage() {
 						date2: new Date(s.date2).toISOString().split("T")[0],
 						date3: new Date(s.date3).toISOString().split("T")[0],
 						from_date: new Date(s.from_date).toISOString().split("T")[0],
-						to_date: new Date(s.to_date).toISOString().split("T")[0]
+						to_date: new Date(s.to_date).toISOString().split("T")[0],
+						start_time: s.start_time,
+						end_time: s.end_time,
+						venue: s.venue,
+						location: s.location,
+						slot_limit: s.slot_limit,
+						is_active: s.is_active
 					}))
 				}));
-
 				setEvents(formatted);
 			})
 			.catch((err)=>console.log(err))

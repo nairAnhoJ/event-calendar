@@ -3,7 +3,7 @@
 function Sidebar() {
     return (
         <aside className="hidden lg:flex flex-col w-66 h-full xl:w-70 bg-white border-r border-border shrink-0 overflow-hidden">
-            <div className="flex w-full h-16">
+            {/* <div className="flex w-full h-16">
                 <div className="w-1/2 h-full flex flex-col items-center justify-center border-r border-b border-border">
                     <p className="font-serif text-2xl text-brand">9</p>
                     <h1 className="text-[0.62rem] font-bold tracking-widest uppercase text-muted">Events</h1>
@@ -12,7 +12,7 @@ function Sidebar() {
                     <p className="font-serif text-2xl text-brand">4</p>
                     <h1 className="text-[0.62rem] font-bold tracking-widest uppercase text-muted">Registrants</h1>
                 </div>
-            </div>
+            </div> */}
             <div className="w-full h-[calc(100%-64px)] p-3">
                 <p className="text-[0.62rem] font-bold tracking-widest uppercase text-muted mb-3">Events This Month</p>
                 
