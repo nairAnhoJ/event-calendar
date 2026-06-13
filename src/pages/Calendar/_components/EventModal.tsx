@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { getEventStatus, parseDate, STATUS_STYLES } from './Calendar';
 import type { CalendarEvent, EventSlot } from '..';
 import ParticipantsPanel from './ParticipantsPanel';
@@ -23,7 +23,6 @@ export function formatFull(str: string): string {
 function EventModal({ event, onClose, showModal }: Props) {
   const [selectedSlot, setSelectedSlot] = useState<EventSlot | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
-  console.log(event)
 
   const handleClose = () => {
     onClose();

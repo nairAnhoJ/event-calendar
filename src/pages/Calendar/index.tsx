@@ -29,7 +29,7 @@ export interface CalendarEvent {
 }
 
 function CalendarPage() {
-	const [loading, setLoading] = useState<boolean>(true);
+	// const [loading, setLoading] = useState<boolean>(true);
 	const [events, setEvents] = useState<CalendarEvent[]>([])
 
 
@@ -61,7 +61,7 @@ function CalendarPage() {
 				setEvents(formatted);
 			})
 			.catch((err)=>console.log(err))
-			.finally(()=>setLoading(false))
+			// .finally(()=>setLoading(false))
 	}
 
     useEffect(()=>{
