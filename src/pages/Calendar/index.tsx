@@ -1,4 +1,4 @@
-import Sidebar from './_components/Sidebar';
+// import Sidebar from './_components/Sidebar';
 import Calendar from './_components/Calendar';
 import { useEffect, useState } from 'react';
 import config from '../../config/config';
