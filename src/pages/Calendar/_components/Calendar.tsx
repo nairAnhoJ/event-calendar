@@ -2,13 +2,6 @@ import { useState } from 'react'
 import type { CalendarEvent } from '..';
 import EventModal from './EventModal';
 
-// interface Participant {
-//     name:   string;
-//     empid:  string;
-//     dept:   string;
-//     status: string;
-// }
-
 interface StatusStyle {
   pill:  string;
   dot:   string;

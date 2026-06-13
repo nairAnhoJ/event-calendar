@@ -23,11 +23,19 @@ export function formatFull(str: string): string {
 function EventModal({ event, onClose, showModal }: Props) {
   const [selectedSlot, setSelectedSlot] = useState<EventSlot | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const [expanded, setExpanded] = useState(false);
+
+  const maxLength = 120;
+  const isLong = event.description.length > maxLength;
 
   const handleClose = () => {
     onClose();
-    setSelectedSlot(null);
-  }
+
+    setTimeout(() => {
+      setSelectedSlot(null);
+      setExpanded(false);
+    }, 300);
+  };
 
   const handleBackdrop = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === overlayRef.current) handleClose();
@@ -75,7 +83,21 @@ function EventModal({ event, onClose, showModal }: Props) {
               {/* Description */}
               <div className="px-6 pt-5 pb-5 border-b border-border">
                 <p className="text-[0.65rem] font-bold tracking-widest uppercase text-muted mb-2">About</p>
-                <p className="text-sm text-brand/80 leading-relaxed">{event.description}</p>
+                <p className="text-sm text-brand/80 leading-relaxed">
+                  {expanded || !isLong
+                    ? event.description
+                    : `${event.description.slice(0, maxLength)}... `}
+                  
+                  {isLong && (
+                    <button
+                      type="button"
+                      onClick={() => setExpanded(!expanded)}
+                      className="inline font-semibold text-primary hover:underline"
+                    >
+                      {expanded ? "See less" : "See more"}
+                    </button>
+                  )}
+                </p>
               </div>
 
               {/* Dates list */}
@@ -154,10 +176,10 @@ function EventModal({ event, onClose, showModal }: Props) {
 
                           {/* Participant count + hover arrow */}
                           <div className="flex flex-col items-end gap-2 shrink-0">
-                            <span className="flex items-center gap-1 text-[0.68rem] font-semibold text-brand bg-bg border border-border rounded-full px-2.5 py-1">
+                            {/* <span className="flex items-center gap-1 text-[0.68rem] font-semibold text-brand bg-bg border border-border rounded-full px-2.5 py-1">
                               <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-users-icon lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>
-                              {/* {slot.participants.length} */}5
-                            </span>
+                              {slot.participants.length}5
+                            </span> */}
                             <span className="text-[0.68rem] font-semibold text-gold flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                               View
                               <svg width="9" height="9" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">

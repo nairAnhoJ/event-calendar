@@ -84,29 +84,20 @@ function ParticipantsPanel({ event, slot, onBack }: Props) {
           </div>
         </div>
       </div> */}
+      <div className="pl-6 flex items-center gap-3 border-b border-border py-2">
+        <span className="text-[0.65rem] font-bold tracking-widest uppercase text-muted mt-0.5">Total</span>
+        <span className="font-serif text-2xl text-brand leading-none">{participants.length}</span>
+      </div>
+      
 
       {/* Participant list */}
       <div className="flex-1 overflow-y-auto px-5 py-4">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 max-h-96 overflow-y-auto">
           {participants.map((p, i) => (
-            <div
-              key={i}
-              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white border border-border hover:border-gold/40 hover:shadow-sm transition-all"
-            >
-              {/* <div className="w-9 h-9 rounded-full bg-brand flex items-center justify-center shrink-0 font-serif text-white text-sm font-bold">
-                {getInitials(p.name)}
-              </div> */}
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-brand truncate">{p.name}</p>
-                <p className="text-xs text-muted truncate">{p.id_number} · {p.department}</p>
-              </div>
-              {/* <span className={`text-[0.65rem] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full shrink-0 border ${
-                p.status === "confirmed"
-                  ? "bg-emerald-50 text-emerald-700 border-emerald-100"
-                  : "bg-amber-50 text-amber-700 border-amber-100"
-              }`}>
-                {p.status}
-              </span> */}
+            <div key={i} className="flex-1 flex items-center min-w-0">
+              <p className='text-sm leading-3.5 mr-2 font-bold border border-border h-6 w-6 rounded-md flex items-center justify-center text-brand/80'>{i+1}</p>
+              <p className="text-sm leading-3.5 font-semibold text-brand/80 truncate mr-1">{p.name}</p>
+              <p className="text-xs leading-3 text-muted truncate">HII-{p.id_number} · {p.department}</p>
             </div>
           ))}
         </div>
