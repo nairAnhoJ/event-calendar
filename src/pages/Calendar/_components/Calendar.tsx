@@ -57,6 +57,7 @@ function buildEventMap(events: CalendarEvent[]): EventMap {
             }
         });
     });
+    console.log(map)
     return map;
 }
 export function getEventStatus(event: CalendarEvent): EventStatus {

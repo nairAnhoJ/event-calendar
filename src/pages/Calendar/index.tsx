@@ -32,10 +32,17 @@ function CalendarPage() {
 	// const [loading, setLoading] = useState<boolean>(true);
 	const [events, setEvents] = useState<CalendarEvent[]>([])
 
+	const formatDate = (date: string) => {
+
+			return new Date(date).toLocaleDateString("en-CA", {
+			timeZone: "Asia/Manila",
+		});
+	}
 
 	const fetchEvents = async() => {
 		config.get('/events')
 			.then((res)=>{
+				console.log(res.data);
 				const formatted = res.data.map((d: any) => ({
 					id: d.id,
 					title: d.title,
@@ -45,11 +52,11 @@ function CalendarPage() {
 						id: s.id,
 						description: s.description,
 						type: s.type,
-						date: new Date(s.date).toISOString().split("T")[0],
-						date2: new Date(s.date2).toISOString().split("T")[0],
-						date3: new Date(s.date3).toISOString().split("T")[0],
-						from_date: new Date(s.from_date).toISOString().split("T")[0],
-						to_date: new Date(s.to_date).toISOString().split("T")[0],
+						date: formatDate(s.date),
+						date2: formatDate(s.date2),
+						date3: formatDate(s.date3),
+						from_date: formatDate(s.from_date),
+						to_date: formatDate(s.to_date),
 						start_time: s.start_time,
 						end_time: s.end_time,
 						venue: s.venue,
