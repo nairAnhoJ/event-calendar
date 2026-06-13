@@ -66,28 +66,16 @@ function ParticipantsPanel({ event, slot, onBack }: Props) {
       </div>
 
       {/* Stats */}
-      {/* <div className="px-6 py-4 border-b border-border shrink-0">
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col">
-            <span className="font-serif text-2xl text-brand leading-none">{slot.participants.length}</span>
-            <span className="text-[0.65rem] font-bold tracking-widest uppercase text-muted mt-0.5">Total</span>
-          </div>
-          <span className="w-px h-8 bg-border" />
-          <div className="flex flex-col">
-            <span className="font-serif text-2xl text-emerald-600 leading-none">{confirmed}</span>
-            <span className="text-[0.65rem] font-bold tracking-widest uppercase text-muted mt-0.5">Confirmed</span>
-          </div>
-          <span className="w-px h-8 bg-border" />
-          <div className="flex flex-col">
-            <span className="font-serif text-2xl text-amber-600 leading-none">{pending}</span>
-            <span className="text-[0.65rem] font-bold tracking-widest uppercase text-muted mt-0.5">Pending</span>
-          </div>
+      <div className="flex items-center justify-between border-b border-border py-2">
+        <div className="px-6 flex items-center gap-3">
+          <span className="font-serif text-xl text-brand leading-none">{slot.description}</span>
         </div>
-      </div> */}
-      <div className="pl-6 flex items-center gap-3 border-b border-border py-2">
-        <span className="text-[0.65rem] font-bold tracking-widest uppercase text-muted mt-0.5">Total</span>
-        <span className="font-serif text-2xl text-brand leading-none">{participants.length}</span>
+        <div className="px-6 flex items-center gap-3">
+          <span className="text-[0.65rem] font-bold tracking-widest uppercase text-muted mt-0.5">Total</span>
+          <span className="font-serif text-2xl text-brand leading-none">{participants.length}</span>
+        </div>
       </div>
+
       
 
       {/* Participant list */}
