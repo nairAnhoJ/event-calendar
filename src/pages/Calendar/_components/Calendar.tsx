@@ -139,7 +139,7 @@ function Calendar({events}: {events: CalendarEvent[]}) {
                 <EventModal event={selectedEvent} showModal={showSelectedEventModal} onClose={() => setShowSelectedEventModal(false)} />
             }
 
-            <div className='w-[calc(100%-88px)] h-full p-6 overflow-y-auto'>
+            <div className='w-full h-full p-12 overflow-y-auto'>
                 {/* Toolbar */}
                 <div className="flex items-center justify-between px-5 pb-3 bg-white border-b border-border shrink-0">
                     <div className="flex items-center gap-3">

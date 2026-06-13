@@ -78,7 +78,7 @@ function CalendarPage() {
     return (
         <>
             <div className='fixed flex w-screen h-screen'>
-                <Sidebar />
+                {/* <Sidebar /> */}
                 <Calendar events={events}/>
             </div>
         </>
