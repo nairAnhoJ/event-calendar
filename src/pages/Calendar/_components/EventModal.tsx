@@ -44,7 +44,14 @@ function EventModal({ event, onClose, showModal }: Props) {
 
   const handleCopyLink = async () => {
     const link = `${window.location.origin}/event/${event.id}`;
-    await navigator.clipboard.writeText(link);
+
+    const textarea = document.createElement("textarea");
+    textarea.value = link;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+
     setLinkCopied(true);
     setTimeout(() => setLinkCopied(false), 1500);
   };
