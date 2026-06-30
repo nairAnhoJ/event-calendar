@@ -24,6 +24,7 @@ function EventModal({ event, onClose, showModal }: Props) {
   const [selectedSlot, setSelectedSlot] = useState<EventSlot | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const [expanded, setExpanded] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const maxLength = 120;
   const isLong = event.description.length > maxLength;
@@ -39,6 +40,13 @@ function EventModal({ event, onClose, showModal }: Props) {
 
   const handleBackdrop = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === overlayRef.current) handleClose();
+  };
+
+  const handleCopyLink = async () => {
+    const link = `${window.location.origin}/event/${event.id}`;
+    await navigator.clipboard.writeText(link);
+    setLinkCopied(true);
+    setTimeout(() => setLinkCopied(false), 1500);
   };
 
   return (
@@ -68,12 +76,26 @@ function EventModal({ event, onClose, showModal }: Props) {
                   </div>
                   <h2 className="font-serif text-white text-[1.2rem] leading-snug pr-2">{event.title}</h2>
                 </div>
-                <button
-                  onClick={handleClose}
-                  className="text-white/35 hover:text-white transition-colors bg-transparent border-none cursor-pointer p-1.5 rounded-lg hover:bg-white/10 shrink-0 mt-0.5"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-                </button>
+                <div>
+                  <button
+                    onClick={handleCopyLink}
+                    className="text-white/35 hover:text-white transition-colors bg-transparent border-none cursor-pointer p-1.5 rounded-lg hover:bg-white/10 shrink-0 mt-0.5"
+                  >
+                    {
+                      linkCopied ? (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-check-icon lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                      ) : (
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-link-icon lucide-link"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                      )
+                    }
+                  </button>
+                  <button
+                    onClick={handleClose}
+                    className="text-white/35 hover:text-white transition-colors bg-transparent border-none cursor-pointer p-1.5 rounded-lg hover:bg-white/10 shrink-0 mt-0.5"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                  </button>
+                </div>
               </div>
             </div>
 
